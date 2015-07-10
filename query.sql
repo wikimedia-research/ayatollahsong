@@ -17,5 +17,7 @@ AND
        webrequest_source IN('text','mobile')
 AND
        is_pageview = true
+AND
+       month IN(06,07)
 GROUP BY
        year, month, day, uri_host, CASE WHEN x_analytics RLIKE('https=1') THEN true ELSE false END, is_search(uri_path, uri_query);
