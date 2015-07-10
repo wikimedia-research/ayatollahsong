@@ -1,8 +1,14 @@
 # ayatollahsong
 
     there's a ban
-    in Iran
+        in Iran
     that they can't resist
+    disappeared,
+        and we feared
+    got this site in a twist.
+
+    And even in these crypto-hate times
+    We can't help wishing it was fine…
 
 ([context](https://www.youtube.com/watch?v=aGBfYoldZQ4))
 
