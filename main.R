@@ -2,6 +2,7 @@ library(ggplot2)
 library(data.table)
 library(ggthemes)
 library(uaparser)
+library(scales)
 
 options(scipen = 500)
 
@@ -29,9 +30,9 @@ ggsave(plot = ggplot(by_day, aes(x = date, y = pageviews, group = type, type = t
 # Just farsi?
 
 fa_by_day <- data[data$domain == "fa.wikipedia.org",j=list(pageviews = sum(events)), by = c("date","type")]
-by_day <- data[,j=list(pageviews = sum(events)), by = c("date","type")]
+fa_by_day <- fa_by_day[,j=list(pageviews = sum(events)), by = c("date","type")]
 
-ggsave(plot = ggplot(by_day, aes(x = date, y = pageviews, group = type, type = type, colour = type)) + geom_line(size=2) +
+ggsave(plot = ggplot(fa_by_day, aes(x = date, y = pageviews, group = type, type = type, colour = type)) + geom_line(size=2) +
          theme_fivethirtyeight() + scale_x_date(breaks = "week") + scale_y_continuous() +
          labs(title = "fa.wikipedia.org pageviews from Iranian IP addresses",
               x = "Date",
@@ -67,3 +68,15 @@ ggsave(plot = ggplot(prominent_browsers, aes(x = reorder(browser, pageviews), y 
          theme_fivethirtyeight() + scale_x_discrete() + scale_y_continuous() +
          labs(title = "Top browsers for Pageviews from Iranian IP addresses") + coord_flip(),
        file = "ua_data.svg")
+
+prominent_percentage <- prominent_browsers[j=list(
+  percentage_drop = (.SD$pageviews[date == "pre-switchover"] - .SD$pageviews[date == "post-switchover"])/
+    .SD$pageviews[date == "pre-switchover"]), by = "browser"
+]
+
+ggsave(plot = ggplot(prominent_percentage, aes(x = reorder(browser, percentage_drop), y = percentage_drop)) +
+         geom_bar(stat="identity", fill = "#008080", position = "dodge") +
+         theme_fivethirtyeight() + scale_x_discrete() + scale_y_continuous(labels=percent) +
+         labs(title = "Switchover decrease in pageviews from top browsers") + coord_flip() +
+         geom_hline(mapping = aes(0)) + expand_limits(y = c(-1,1)),
+       file = "ua_proportionate.svg")
