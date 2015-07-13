@@ -7,7 +7,7 @@ SELECT
        day,
        uri_host,
        CASE WHEN x_analytics RLIKE('https=1') THEN true ELSE false END AS is_https,
-       is_search(uri_path, uri_query),
+
        COUNT(*)
 FROM
        webrequest
@@ -16,8 +16,8 @@ WHERE
 AND
        webrequest_source IN('text','mobile')
 AND
-       is_pageview = true
+       is_search(uri_path, uri_query)
 AND
        month IN(06,07)
 GROUP BY
-       year, month, day, uri_host, CASE WHEN x_analytics RLIKE('https=1') THEN true ELSE false END, is_search(uri_path, uri_query);
+       year, month, day, uri_host, CASE WHEN x_analytics RLIKE('https=1') THEN true ELSE false END;
