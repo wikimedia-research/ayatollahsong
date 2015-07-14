@@ -9,12 +9,24 @@ date: 2015-07-13
 Summary
 ========================================================
 
-To understand the decrease in traffic following the HTTPS switchover, we conducted a detailed analysis, including user agent parsing, of pageviews and search events directed at our servers from Iranian IP addresses. We found that:
+To understand the decrease in traffic following the HTTPS switchover, we conducted a detailed analysis, including user agent parsing, of pageviews and search events directed at our servers from Iranian IP addresses. We found that, for pageviews:
 
 * The HTTP/S switchover is almost certainly the cause of the massive traffic decrease;
-* The drop in pageviews is mimicked by a drop in search events;
 * It is disproportionately affecting older browsers, which make up the vast majority of Iran's use of Wikipedia;
 * While browser age is a massive factor, there are some indications that modern browsers do not immunise a user from being halted, suggesting that both software issues and some amount of official firewalling is going on.
+
+For searches, on the other hand:
+
+* Search events massively increase under HTTPS;
+* This increase occurs uniformly, on both en and fa.wikipedia.org;
+
+These two things together (pageviews decreasing and searches increasing) are massively dissonant. Hypotheses as to what's going on would be;
+
+* Pageviews were artificially high;
+* Searches *are* artificially high;
+* Least probably - both pageviews and searches are accurate, but the forced switch to HTTPS has enabled some search-triggering feature in common browsers, or in MediaWiki.
+
+My money is on pageviews previously being artificially high, simply because it is incredibly rare to see so much of a market dominated by a single browser, and unprecedented for that browser to be IE6. We should consult with someone with experience with Iranian computing to see if that is an accurate reflection of the software people use.
 
 Pageviews
 ========================================================
@@ -46,3 +58,12 @@ What we see is further evidence that the loss is grossly disproportionate. IE6, 
 
 Search
 ========================================================
+
+If we look at searches rather than pageviews, for the same period:
+
+![search](iran_searches.svg)
+
+Search events did *not* decrease under HTTPS - they increased massively. It's always useful to break down the most commonly-used projects (in this case, en.wikipedia.org and fa.wikipedia.org) to see if one or the other is responsible for this change.
+
+![search en](iran_en_searches.svg)
+![search fa](iran_fa_searches.svg)
